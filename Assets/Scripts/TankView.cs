@@ -10,6 +10,8 @@ namespace Assets.Scripts
         private Rigidbody rb;
         private float movementDir;
         private float rotationDir;
+        [SerializeField]
+        private MeshRenderer[] renderers;
 
         private void Start()
         {
@@ -50,6 +52,14 @@ namespace Assets.Scripts
         private void Rotation()
         {
             rotationDir = Input.GetAxis("Horizontal");
+        }
+
+        public void SetTankColor(Material color)
+        {
+            foreach(var renderer in renderers)
+            {
+                renderer.material = color;
+            }
         }
     }
 }

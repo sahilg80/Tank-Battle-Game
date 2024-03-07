@@ -15,9 +15,10 @@ namespace Assets.Scripts
             
             this.tankView = GameObject.Instantiate<TankView>(tankView);
 
-            tankModel.SetController(this);
+            this.tankModel.SetController(this);
             this.tankView.SetController(this);
             rb = this.tankView.GetRigidBody();
+            this.tankView.SetTankColor(this.tankModel.color);
         }
 
         public void Move(float dir, float speed)

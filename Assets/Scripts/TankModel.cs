@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -11,15 +8,21 @@ namespace Assets.Scripts
         private TankController tankController;
         public float movementSpeed { get; private set; }
         public float rotationSpeed { get; private set; }
-        public TankModel(float movementSpeed, float rotationSpeed)
+        public TankTypes type { get; private set; }
+        public Material color { get; private set; }
+
+        public TankModel(float movementSpeed, float rotationSpeed, Material color, TankTypes type)
         {
             this.movementSpeed = movementSpeed;
             this.rotationSpeed = rotationSpeed;
+            this.color = color;
+            this.type = type;
         }
 
         public void SetController(TankController tankController)
         {
             this.tankController = tankController;
         }
+
     }
 }
