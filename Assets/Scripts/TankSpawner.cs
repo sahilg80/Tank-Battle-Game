@@ -11,17 +11,30 @@ namespace Assets.Scripts
         private List<Tank> tankList;
         [SerializeField]
         private TankView tankView;
+        //private Dictionary<TankTypes, Tank> tanks;
 
         // Start is called before the first frame update
         void Start()
         {
-            CreateTank();
         }
 
-        private void CreateTank()
+        public void CreateTank(TankTypes type)
         {
-            TankModel tankModel = new TankModel(30, 40, tankList[0].color, tankList[0].type);
-            TankController tankController = new TankController(tankModel, tankView);
+            switch (type)
+            {
+                case TankTypes.Green:
+                    TankModel tankModel = new TankModel(30, 40, tankList[0].color, tankList[0].type);
+                    TankController tankController = new TankController(tankModel, tankView);
+                    break;
+                case TankTypes.Red:
+                    tankModel = new TankModel(30, 40, tankList[1].color, tankList[1].type);
+                    tankController = new TankController(tankModel, tankView);
+                    break;
+                case TankTypes.Blue:
+                    tankModel = new TankModel(30, 40, tankList[2].color, tankList[2].type);
+                    tankController = new TankController(tankModel, tankView);
+                    break;
+            }
         }
 
     }
