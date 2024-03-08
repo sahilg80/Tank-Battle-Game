@@ -4,8 +4,8 @@ namespace Assets.Scripts
 {
     public enum TankTypes
     {
-        Red,
-        Green,
-        Blue
+        Red = 0,
+        Green = 1,
+        Blue = 2
     }
 }
