@@ -7,12 +7,7 @@ namespace Assets.Scripts
     {
         [SerializeField]
         private TankSpawner tankSpawner;
-
-        public void ShowTank()
-        {
-            Debug.Log("showing tank");
-        }
-
+        
         public void SelectTank(int num)
         {
             TankTypes type = (TankTypes)num;
@@ -20,5 +15,6 @@ namespace Assets.Scripts
             tankSpawner.CreateTank(type);
             this.gameObject.SetActive(false);
         }
+
     }
 }
