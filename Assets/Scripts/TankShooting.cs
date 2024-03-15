@@ -85,7 +85,7 @@ namespace Assets.Scripts
             Rigidbody shellInstance = bulletObject.GetComponent<Rigidbody>();
 
             // Set the shell's velocity to the launch force in the fire position's forward direction.
-            shellInstance.velocity = currentLaunchForce * FireBarrelTransform.forward; ;
+            shellInstance.velocity = currentLaunchForce * FireBarrelTransform.up; ;
 
             // Reset the launch force.  This is a precaution in case of missing button events.
             currentLaunchForce = MinLaunchForce;
