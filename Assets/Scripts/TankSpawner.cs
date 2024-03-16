@@ -18,13 +18,17 @@ namespace Assets.Scripts
         {
         }
 
-        public void CreateTank(TankTypes type)
+        public TankController CreateTank(TankTypes type)
         {
+            TankModel tankModel = null;
+
+            TankController tankController = null;
+
             switch (type)
             {
                 case TankTypes.Green:
-                    TankModel tankModel = new TankModel(30, 40, tankList[0].color, tankList[0].type);
-                    TankController tankController = new TankController(tankModel, tankView);
+                    tankModel = new TankModel(30, 40, tankList[0].color, tankList[0].type);
+                    tankController = new TankController(tankModel, tankView);
                     break;
                 case TankTypes.Red:
                     tankModel = new TankModel(30, 40, tankList[1].color, tankList[1].type);
@@ -35,6 +39,7 @@ namespace Assets.Scripts
                     tankController = new TankController(tankModel, tankView);
                     break;
             }
+            return tankController;
         }
 
     }
