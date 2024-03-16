@@ -4,8 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Bullet
   - FireParticleEffect
+  - Enemy
+  - EnemyBullet
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX
@@ -13,8 +15,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

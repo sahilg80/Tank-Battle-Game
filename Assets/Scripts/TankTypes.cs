@@ -8,4 +8,11 @@ namespace Assets.Scripts
         Green = 1,
         Blue = 2
     }
+
+    public enum EnemyTank
+    {
+        Shark,
+        Cat,
+        Monkey,
+    }
 }
