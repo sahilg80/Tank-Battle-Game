@@ -10,6 +10,8 @@ namespace Assets.Scripts
         private float totalDuration;
         [SerializeField]
         private float magnitude;
+        [SerializeField]
+        private GameObject cameraObject;
 
         public void CameraShake()
         {
@@ -20,20 +22,20 @@ namespace Assets.Scripts
         {
             float timeElapsed = 0f;
 
-            Vector3 originalPosition = transform.localPosition;
+            Vector3 originalPosition = cameraObject.transform.localPosition;
 
             while (timeElapsed <= totalDuration)
             {
                 float x = Random.Range(-1f, 1f) * magnitude;
                 float y = Random.Range(-1f, 1f) * magnitude;
 
-                transform.localPosition = new Vector3(x, originalPosition.y, originalPosition.z);
+                cameraObject.transform.localPosition = new Vector3(x, originalPosition.y, originalPosition.z);
 
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
 
-            transform.localPosition = originalPosition;
+            cameraObject.transform.localPosition = originalPosition;
         }
     }
 }

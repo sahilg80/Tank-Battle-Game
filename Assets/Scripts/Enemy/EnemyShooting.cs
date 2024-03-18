@@ -13,10 +13,10 @@ namespace Assets.Scripts.Enemy
         private Transform FireBarrelTransform;
         [SerializeField]
         private ParticleSystem ParticleSystem;
-        [SerializeField]
         private float launchForce;
         private float fireRate;
         private Coroutine shootingCoroutine;
+        private float damage;
 
         public void SetLaunchForce(float value)
         {
@@ -28,8 +28,14 @@ namespace Assets.Scripts.Enemy
             fireRate = value;
         }
 
+        public void SetDamageValue(float value)
+        {
+            damage = value;
+        }
+
         public void EnemyFire()
         {
+            if (shootingCoroutine != null) StopFire();
             shootingCoroutine = StartCoroutine(ShootTarget());
         }
 
@@ -52,7 +58,7 @@ namespace Assets.Scripts.Enemy
 
             //Rigidbody shellInstance = Instantiate(Bullet, FireBarrelTransform.position, FireBarrelTransform.rotation) as Rigidbody;
             Rigidbody shellInstance = bulletObject.GetComponent<Rigidbody>();
-
+            bulletObject.GetComponent<Bullet>().SetDamage(damage);
             // Set the shell's velocity to the launch force in the fire position's forward direction.
             shellInstance.velocity = launchForce * FireBarrelTransform.up; ;
 
@@ -62,7 +68,9 @@ namespace Assets.Scripts.Enemy
 
         public void StopFire()
         {
+            if (shootingCoroutine == null) return;
             StopCoroutine(shootingCoroutine);
+            shootingCoroutine = null;
         }
 
     }

@@ -1,10 +1,12 @@
 
+using Assets.Scripts;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     [SerializeField]
     private ParticleSystem fireParticleSystem;
+    private float damageValue;
 
     private void OnEnable()
     {
@@ -16,8 +18,20 @@ public class Bullet : MonoBehaviour
 
     }
 
+    public void SetDamage(float value)
+    {
+        damageValue = value;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
+        BaseView atack = collision.transform.GetComponentInParent<BaseView>();
+
+        if (atack != null)
+        {
+            atack.OnAttacked(damageValue);
+        }
+
         ObjectPoolManager.Instance.DeSpawnObject(this.gameObject);
 
         if (fireParticleSystem != null)
@@ -27,5 +41,6 @@ public class Bullet : MonoBehaviour
             bulletParticleEffectObject.GetComponent<ParticleSystem>().Play();
             ObjectPoolManager.Instance.DeSpawnObjectWithDelay(bulletParticleEffectObject, 3f);
         }
+
     }
 }

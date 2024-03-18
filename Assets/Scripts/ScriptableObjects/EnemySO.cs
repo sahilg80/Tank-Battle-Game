@@ -6,7 +6,6 @@ using UnityEngine;
 public class EnemySO : ScriptableObject
 {
     public float Damage;
-    public float HealthReduceRate;
     public float FireRate;
     public float LaunchForce;
     public float MovementSpeed;

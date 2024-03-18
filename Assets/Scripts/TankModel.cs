@@ -6,17 +6,11 @@ namespace Assets.Scripts
     public class TankModel
     {
         private TankController tankController;
-        public float movementSpeed { get; private set; }
-        public float rotationSpeed { get; private set; }
-        public TankTypes type { get; private set; }
-        public Material color { get; private set; }
+        public PlayerSO DataObject { get; private set; }
 
-        public TankModel(float movementSpeed, float rotationSpeed, Material color, TankTypes type)
+        public TankModel(PlayerSO playerObj)
         {
-            this.movementSpeed = movementSpeed;
-            this.rotationSpeed = rotationSpeed;
-            this.color = color;
-            this.type = type;
+            this.DataObject = playerObj;
         }
 
         public void SetController(TankController tankController)

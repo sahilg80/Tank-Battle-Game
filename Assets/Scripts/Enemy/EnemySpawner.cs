@@ -6,8 +6,8 @@ namespace Assets.Scripts.Enemy
 {
     public class EnemySpawner : MonoBehaviour
     {
-        [SerializeField]
-        private List<EnemySO> enemyList;
+        //[SerializeField]
+        //private List<EnemySO> enemyList;
         [SerializeField]
         private EnemyView enemyView;
         [SerializeField]
@@ -18,20 +18,10 @@ namespace Assets.Scripts.Enemy
 
         }
 
-        public void CreateEnemyTank(EnemyTank type, Transform target)
+        public void CreateEnemyTank(EnemySO enemyData, TankController tankController, Vector3 position)
         {
-            EnemySO enemy = GetObjectByType(type);
-            EnemyModel enemyModel = new EnemyModel(enemy, target);
-            EnemyController enemyController = new EnemyController(enemyModel, enemyView, spawnPosition );
-        }
-
-        private EnemySO GetObjectByType(EnemyTank type)
-        {
-            foreach (EnemySO enemy in enemyList)
-            {
-                if (enemy.Type == type) return enemy;
-            }
-            return null;
+            EnemyModel enemyModel = new EnemyModel(enemyData, tankController.TankView.transform);
+            EnemyController enemyController = new EnemyController(enemyModel, enemyView, position);
         }
 
     }

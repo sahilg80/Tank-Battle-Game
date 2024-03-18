@@ -6,33 +6,65 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Enemy
 {
-    public class EnemyView : MonoBehaviour
+    public class EnemyView : BaseView
     {
         private EnemyController enemyController;
 
         [SerializeField]
         private NavMeshAgent agent;
-        private float movementDir;
         private float rotationSpeed;
         [SerializeField]
         private MeshRenderer[] renderers;
         [SerializeField]
         private EnemyShooting enemyShooting;
+        [SerializeField]
+        private Image healthBarImage;
         private float chasingRate;
         private Coroutine movementCoroutine;
         private Coroutine rotationCoroutine;
+        private float currentHealth;
+
+        private void OnEnable()
+        {
+            EventService.Instance.OnGameEnd.AddListener(OnTargetTankKilled);
+        }
+        private void OnDisable()
+        {
+            EventService.Instance.OnGameEnd.RemoveListener(OnTargetTankKilled);
+        }
 
         private void Start()
         {
-            chasingRate = 2f;
+            //chasingRate = 2f;
+            //currentHealth = 10f;
         }
 
         private void Update()
         {
             
+        }
+
+        private void OnTargetTankKilled(bool value)
+        {
+            StopAllCoroutines(); 
+            enemyShooting.StopFire();
+            agent.isStopped = true;
+            this.enabled = false;
+        }
+
+        public void InitializeProperties(EnemySO enemyData)
+        {
+            enemyShooting.SetFireRate(enemyData.FireRate);
+            enemyShooting.SetDamageValue(enemyData.Damage);
+            enemyShooting.SetLaunchForce(enemyData.LaunchForce);
+            rotationSpeed = enemyData.RotationSpeed;
+            healthBarImage.fillAmount = 1;
+            chasingRate = 2f;
+            currentHealth = 10f;
         }
 
         private void SetDestination(Vector3 pos)
@@ -45,16 +77,32 @@ namespace Assets.Scripts.Enemy
             agent.speed = speed;
             agent.stoppingDistance = 0.8f;
         }
+        public void SetTankColor(Material color)
+        {
+            foreach (var renderer in renderers)
+            {
+                renderer.material = color;
+            }
+        }
 
         public void ReachToTarget()
         {
             SetDestination(enemyController.GetTargetPosition());
+            if(movementCoroutine !=null)
+            {
+                StopCoroutine(movementCoroutine);
+                movementCoroutine = null;
+            }
             movementCoroutine = StartCoroutine(ChaseTarget());
         }
 
         public void TargetRelocated()
         {
-            StopCoroutine(rotationCoroutine);
+            if (rotationCoroutine!=null)
+            {
+                StopCoroutine(rotationCoroutine);
+                rotationCoroutine = null;
+            }
             enemyShooting.StopFire();
             agent.isStopped = false;
             ReachToTarget();
@@ -88,7 +136,16 @@ namespace Assets.Scripts.Enemy
 
         public void TargetDetected()
         {
-            StopCoroutine(movementCoroutine);
+            if (movementCoroutine != null)
+            {
+                StopCoroutine(movementCoroutine);
+                movementCoroutine = null;
+            }
+            if(rotationCoroutine != null)
+            {
+                StopCoroutine(rotationCoroutine);
+                rotationCoroutine = null;
+            }
             rotationCoroutine = StartCoroutine(RotateTowardsTarget());
             agent.isStopped = true;
             enemyShooting.EnemyFire();
@@ -97,13 +154,6 @@ namespace Assets.Scripts.Enemy
         public void SetController(EnemyController controller)
         {
             this.enemyController = controller;
-        }
-
-        public void InitializeProperties(EnemySO enemyData)
-        {
-            enemyShooting.SetFireRate(enemyData.FireRate);
-            enemyShooting.SetLaunchForce(enemyData.LaunchForce);
-            rotationSpeed = enemyData.RotationSpeed;
         }
 
         //public NavMeshAgent GetNavMeshAgent()
@@ -120,12 +170,17 @@ namespace Assets.Scripts.Enemy
         //{
         //    rotationDir = Input.GetAxis("Horizontal");
         //}
-
-        public void SetTankColor(Material color)
+        public override void OnAttacked(float damage)
         {
-            foreach (var renderer in renderers)
+            if (currentHealth <= 0) return;
+            
+            currentHealth = currentHealth - damage;
+            healthBarImage.fillAmount = currentHealth / 10;
+
+            if (currentHealth <= 0)
             {
-                renderer.material = color;
+                GameService.Instance.UpdateEnemiesKilled();
+                ObjectPoolManager.Instance.DeSpawnObject(this.gameObject);
             }
         }
     }

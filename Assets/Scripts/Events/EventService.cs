@@ -11,10 +11,14 @@ public class EventService
         }
     }
 
-    public EventController OnTankSelection { get; private set; }
+    public EventController<int> OnNewWaveStart { get; private set; }
+    public EventController<int> OnEnemyTankKilled { get; private set; }
+    public EventController<bool> OnGameEnd { get; private set; }
     private EventService()
     {
-        OnTankSelection = new EventController();
+        OnNewWaveStart = new EventController<int>();
+        OnEnemyTankKilled = new EventController<int>();
+        OnGameEnd = new EventController<bool>();
     }
 }
  

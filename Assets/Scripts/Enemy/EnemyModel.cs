@@ -13,7 +13,6 @@ namespace Assets.Scripts.Enemy
         private float currentHealth;
         public EnemySO DataObject { get; private set; }
         public Transform Target { get; private set; }
-
         public EnemyModel(EnemySO enemyObj, Transform target)
         {
             this.DataObject = enemyObj;

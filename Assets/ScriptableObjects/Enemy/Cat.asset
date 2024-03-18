@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf2c7a4935aa9241a5b03daa3068153, type: 3}
   m_Name: Cat
   m_EditorClassIdentifier: 
-  Damage: 20
-  HealthReduceRate: 2.5
+  Damage: 0.3
   FireRate: 1.5
   LaunchForce: 20
   MovementSpeed: 3

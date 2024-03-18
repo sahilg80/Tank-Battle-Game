@@ -5,21 +5,19 @@ using UnityEngine;
 
 public class ObjectPoolManager : MonoBehaviour
 {
-    public List<ObjectPoolsInfo> objectPools;
+    private List<ObjectPoolsInfo> objectPools;
     private static ObjectPoolManager instance;
 
-    public static ObjectPoolManager Instance { get => instance; }
+    public static ObjectPoolManager Instance 
+    { 
+        get => instance;
+    }
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
         }
     }
     // Start is called before the first frame update
@@ -27,7 +25,6 @@ public class ObjectPoolManager : MonoBehaviour
     {
         objectPools = new List<ObjectPoolsInfo>();
     }
-
 
     public GameObject SpawnObject(GameObject prefab)
     {
@@ -63,6 +60,44 @@ public class ObjectPoolManager : MonoBehaviour
             obj.transform.rotation = Quaternion.identity;
         }
         return obj;
+    }
+
+    public T SpawnObject<T>(Component component)
+    {
+        ObjectPoolsInfo pool = null;
+        GameObject prefab = component.gameObject;
+
+        foreach (var p in objectPools)
+        {
+            if (p.Name == prefab.tag)
+            {
+                pool = p;
+                break;
+            }
+        }
+        if (pool == null)
+        {
+            pool = new ObjectPoolsInfo();
+            pool.Name = prefab.tag;
+            pool.InactiveObjects = new List<GameObject>();
+            objectPools.Add(pool);
+        }
+
+        GameObject obj = null;
+
+        if (pool.InactiveObjects.Count > 0)
+        {
+            obj = pool.InactiveObjects[0];
+            obj.SetActive(true);
+            pool.InactiveObjects.RemoveAt(0);
+        }
+        else
+        {
+            obj = GameObject.Instantiate(prefab);
+            obj.transform.position = Vector3.zero;
+            obj.transform.rotation = Quaternion.identity;
+        }
+        return obj.GetComponent<T>();
     }
 
     public void DeSpawnObject(GameObject obj)

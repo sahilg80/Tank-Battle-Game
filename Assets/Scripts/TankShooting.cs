@@ -15,13 +15,14 @@ namespace Assets.Scripts
         private Slider AimSlider;
         [SerializeField]
         private ParticleSystem ParticleSystem;
-        public float MinLaunchForce = 15f;        
-        public float MaxLaunchForce = 30f;        
+        private float MinLaunchForce;        
+        private float MaxLaunchForce;        
         public float MaxChargeTime = 0.75f;    
 
         private float currentLaunchForce;         
         private float chargeSpeed;                
-        private bool isBulletFired;               
+        private bool isBulletFired;
+        private float damage;
 
         private void OnEnable()
         {
@@ -33,6 +34,17 @@ namespace Assets.Scripts
         {
             // The rate that the launch force charges up is the range of possible forces by the max charge time.
             chargeSpeed = (MaxLaunchForce - MinLaunchForce) / MaxChargeTime;
+        }
+
+        public void SetLaunchForce(float value)
+        {
+            MaxLaunchForce = value;
+            MinLaunchForce = MaxLaunchForce / 2;
+        }
+
+        public void SetDamageValue(float value)
+        {
+            damage = value;
         }
 
         private void Update()
@@ -68,7 +80,7 @@ namespace Assets.Scripts
             {
                 // ... launch the shell.
                 Fire();
-                Camera.main.transform.GetComponent<CameraHandler>().CameraShake();
+                Camera.main.transform.GetComponentInParent<CameraHandler>().CameraShake();
             }
         }
 
@@ -81,7 +93,8 @@ namespace Assets.Scripts
             GameObject bulletObject = ObjectPoolManager.Instance.SpawnObject(Bullet.gameObject);
             bulletObject.transform.position = FireBarrelTransform.position;
             bulletObject.transform.rotation = FireBarrelTransform.rotation;
-            
+
+            bulletObject.GetComponent<Bullet>().SetDamage(damage);
             //Rigidbody shellInstance = Instantiate(Bullet, FireBarrelTransform.position, FireBarrelTransform.rotation) as Rigidbody;
             Rigidbody shellInstance = bulletObject.GetComponent<Rigidbody>();
 

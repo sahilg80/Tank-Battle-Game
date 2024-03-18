@@ -13,12 +13,13 @@ namespace Assets.Scripts
         {
             this.tankModel = tankModel;
             
-            this.TankView = GameObject.Instantiate<TankView>(tankView);
+            this.TankView = ObjectPoolManager.Instance.SpawnObject<TankView>(tankView);// GameObject.Instantiate<TankView>(tankView);
 
             this.tankModel.SetController(this);
             this.TankView.SetController(this);
             rb = this.TankView.GetRigidBody();
-            this.TankView.SetTankColor(this.tankModel.color);
+            this.TankView.InitializeProperties(this.tankModel.DataObject);
+            this.TankView.SetTankColor(this.tankModel.DataObject.Color);
         }
 
         public void Move(float dir, float speed)
@@ -35,11 +36,11 @@ namespace Assets.Scripts
 
         public float GetMovementSpeed()
         {
-            return tankModel.movementSpeed;
+            return tankModel.DataObject.MovementSpeed;
         }
         public float GetRotationSpeed()
         {
-            return tankModel.rotationSpeed;
+            return tankModel.DataObject.RotationSpeed;
         }
 
     }

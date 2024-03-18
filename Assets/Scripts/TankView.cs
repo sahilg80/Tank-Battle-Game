@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    public class TankView : MonoBehaviour
+    public class TankView : BaseView
     {
         private TankController tankController;
 
@@ -12,12 +13,19 @@ namespace Assets.Scripts
         private float rotationDir;
         [SerializeField]
         private MeshRenderer[] renderers;
+        private float currentHealth;
+        [SerializeField]
+        private TankShooting tankShooting;
+        [SerializeField]
+        private Image healthBarImage;
+        private GameObject cameraObject;
 
         private void Start()
         {
-            GameObject cam = GameObject.FindGameObjectWithTag("MainCamera");
-            cam.transform.parent = this.gameObject.transform;
-            cam.transform.position = new Vector3(0, 4, -10);
+            cameraObject = GameObject.FindGameObjectWithTag("CameraHolder");
+            cameraObject.transform.position = new Vector3(-9.578f, 17.352f, -9.242f);
+            cameraObject.transform.parent = this.gameObject.transform;
+            currentHealth = 10f;
         }
 
         private void Update()
@@ -44,6 +52,12 @@ namespace Assets.Scripts
             return rb;
         }
 
+        public void InitializeProperties(PlayerSO playerData)
+        {
+            tankShooting.SetLaunchForce(playerData.LaunchForce);
+            tankShooting.SetDamageValue(playerData.Damage);
+        }
+
         private void Movement()
         {
             movementDir = Input.GetAxis("Vertical");
@@ -59,6 +73,20 @@ namespace Assets.Scripts
             foreach(var renderer in renderers)
             {
                 renderer.material = color;
+            }
+        }
+        public override void OnAttacked(float damage)
+        {
+            if (currentHealth <= 0) return;
+            
+            currentHealth = currentHealth - damage;
+            healthBarImage.fillAmount = currentHealth / 10;
+
+            if (currentHealth <= 0)
+            {
+                cameraObject.transform.parent = null;
+                EventService.Instance.OnGameEnd.InvokeEvent(false);
+                ObjectPoolManager.Instance.DeSpawnObject(this.gameObject);
             }
         }
     }
