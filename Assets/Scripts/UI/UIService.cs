@@ -11,24 +11,18 @@ namespace Assets.Scripts.UI
         private GameObject tankSelectionUI;
         [SerializeField]
         private GameObject startMenuUI;
-        [SerializeField]
-        private GameObject gameOverPanelUI;
-        [SerializeField]
-        private GameObject gameWinText;
-        [SerializeField]
-        private GameObject gameLoseText;
 
         private void OnEnable()
         {
-            EventService.Instance.OnGameEnd.AddListener(EnableGameOverPanel);
+            //EventService.Instance.OnGameEnd.AddListener(EnableGameOverPanel);
         }
         private void OnDisable()
         {
-            EventService.Instance.OnGameEnd.RemoveListener(EnableGameOverPanel);
+            //EventService.Instance.OnGameEnd.RemoveListener(EnableGameOverPanel);
         }
         private void Start()
         {
-            gameOverPanelUI.SetActive(false);
+            //gameOverPanelUI.SetActive(false);
             tankSelectionUI.SetActive(false);
             startMenuUI.SetActive(true);
         }
@@ -49,12 +43,12 @@ namespace Assets.Scripts.UI
             SceneManager.LoadScene(0);
         }
 
-        private void EnableGameOverPanel(bool value)
-        {
-            gameWinText.SetActive(value);
-            gameLoseText.SetActive(!value);
-            gameOverPanelUI.SetActive(true);
-        }
+        //private void EnableGameOverPanel(bool value)
+        //{
+        //    gameWinText.SetActive(value);
+        //    gameLoseText.SetActive(!value);
+        //    gameOverPanelUI.SetActive(true);
+        //}
 
     }
 }

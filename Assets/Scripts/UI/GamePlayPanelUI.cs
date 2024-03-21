@@ -17,6 +17,14 @@ namespace Assets.Scripts.UI
         private TextMeshProUGUI totalEnemiesKilled;
         [SerializeField]
         private GameObject waveNumberTextHolder;
+        [SerializeField]
+        private TextMeshProUGUI wavesStatusText;
+        [SerializeField]
+        private GameObject gameOverPanelUI;
+        [SerializeField]
+        private GameObject gameWinText;
+        [SerializeField]
+        private GameObject gameLoseText;
 
         private void Start()
         {
@@ -45,7 +53,9 @@ namespace Assets.Scripts.UI
         {
             currentWaveNum.SetText(value.ToString());
             SetTotalWavesPassedNum(value);
-            StartCoroutine(ShowWaveNumberInUI());
+            StartCoroutine(ShowWaveStatusTextInUI(value));
+            //}
+            //StartCoroutine(ShowWaveNumberInUI());
         }
 
         private void SetTanksKilled(int value)
@@ -53,9 +63,31 @@ namespace Assets.Scripts.UI
             totalEnemiesKilled.SetText(value.ToString());
         }
 
+        private void SetWaveStatusText(string value)
+        {
+            wavesStatusText.SetText(value);
+        }
+
         private void DisableGamePlayPanel(bool value)
         {
+            StartCoroutine(GameEndUIActions(value));
+            //this.gameObject.SetActive(false);
+        }
+
+        private void EnableGameOverPanel(bool value)
+        {
+            gameWinText.SetActive(value);
+            gameLoseText.SetActive(!value);
+            gameOverPanelUI.SetActive(true);
             this.gameObject.SetActive(false);
+        }
+
+        IEnumerator GameEndUIActions(bool value)
+        {
+            SetWaveStatusText("Completed All Waves");
+            yield return new WaitForSeconds(2f);
+            SetWaveStatusText(string.Empty);
+            EnableGameOverPanel(value);
         }
 
         IEnumerator ShowWaveNumberInUI()
@@ -63,6 +95,17 @@ namespace Assets.Scripts.UI
             waveNumberTextHolder.SetActive(true);
             yield return new WaitForSeconds(2f);
             waveNumberTextHolder.SetActive(false);
+        }
+
+        IEnumerator ShowWaveStatusTextInUI(int value)
+        {
+            if (value > 1)
+            {
+                SetWaveStatusText("Completed Wave " + (value-1).ToString());
+                yield return new WaitForSeconds(2f);
+                SetWaveStatusText(string.Empty);
+            }
+            StartCoroutine(ShowWaveNumberInUI());
         }
     }
 }
