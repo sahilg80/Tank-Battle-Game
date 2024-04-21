@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Views
 {
-    public class TankView : MonoBehaviour
+    public class TankView : BaseView
     {
         private TankController tankController;
 
@@ -12,9 +13,15 @@ namespace Assets.Scripts
         private float rotationDir;
         [SerializeField]
         private MeshRenderer[] renderers;
+        [SerializeField]
+        private TankShooting tankShooting;
+        [SerializeField]
+        private Health health;
+        public bool IsLocalPlayer;
 
         private void Start()
         {
+            if (!IsLocalPlayer) return;
             GameObject cam = GameObject.FindGameObjectWithTag("MainCamera");
             cam.transform.parent = this.gameObject.transform;
             cam.transform.position = new Vector3(0, 4, -10);
@@ -22,21 +29,23 @@ namespace Assets.Scripts
 
         private void Update()
         {
+            if (!IsLocalPlayer) return;
             Movement();
-            if(movementDir != 0 && tankController!=null)
-            {
-                tankController.Move(movementDir, tankController.GetMovementSpeed());
-            }
+            tankController?.Move(movementDir);
+
             Rotation();
-            if(rotationDir != 0 && tankController != null)
-            {
-                tankController.Rotate(rotationDir, tankController.GetRotationSpeed());
-            }
+            tankController?.Rotate(rotationDir);
+            Shoot();
         }
 
         public void SetController(TankController tankController)
         {
             this.tankController = tankController;
+        }
+
+        public void SetLaunchForce(float value)
+        {
+            tankShooting.SetLaunchForce(value);
         }
 
         public Rigidbody GetRigidBody()
@@ -54,12 +63,25 @@ namespace Assets.Scripts
             rotationDir = Input.GetAxis("Horizontal");
         }
 
+        private void Shoot()
+        {
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                tankShooting.Fire();
+            }
+        }
+
         public void SetTankColor(Material color)
         {
             foreach(var renderer in renderers)
             {
                 renderer.material = color;
             }
+        }
+
+        public override void RecieveDamage(float value)
+        {
+            //health.UpdateHealth(value);
         }
     }
 }

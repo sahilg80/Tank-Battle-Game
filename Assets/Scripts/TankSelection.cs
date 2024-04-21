@@ -6,15 +6,20 @@ namespace Assets.Scripts
     public class TankSelection : MonoBehaviour
     {
         [SerializeField]
-        private TankSpawner tankSpawner;
-        
-        public void SelectTank(int num)
-        {
-            TankTypes type = (TankTypes)num;
+        private PlayerSpawner tankSpawner;
 
-            tankSpawner.CreateTank(type);
+        public void SelectTank(PlayerSO player)
+        {
             this.gameObject.SetActive(false);
         }
+
+        //public void SelectTank(int num)
+        //{
+        //    PlayerTankTypes type = (PlayerTankTypes)num;
+
+        //    tankSpawner.CreateTank(type);
+        //    this.gameObject.SetActive(false);
+        //}
 
     }
 }

@@ -1,15 +1,15 @@
 
+using Assets.Scripts.Views;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private bool isCollided;
+    public GameObject PlayerFrom { get; set; }
     [SerializeField]
     private ParticleSystem fireParticleSystem;
 
     private void OnEnable()
     {
-        isCollided = false;
     }
 
     private void Update()
@@ -19,17 +19,24 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.transform.CompareTag("Player") && !isCollided)
+        var hit = collision.gameObject;
+        var health = hit.GetComponent<Health>();
+        if(health != null)
         {
-            ObjectPoolManager.Instance.DeSpawnObject(this.gameObject);
-            isCollided = true;
-            if (fireParticleSystem != null)
-            {
-                GameObject bulletParticleEffectObject = ObjectPoolManager.Instance.SpawnObject(fireParticleSystem.gameObject);
-                bulletParticleEffectObject.transform.position = collision.GetContact(0).point;
-                bulletParticleEffectObject.GetComponent<ParticleSystem>().Play();
-                ObjectPoolManager.Instance.DeSpawnObjectWithDelay(bulletParticleEffectObject,3f);
-            }
+            health.TakeDamage(PlayerFrom, 6f);
         }
+        Destroy(this.gameObject);
+        //BaseView coll = collision.transform.GetComponent<BaseView>();
+        //coll?.RecieveDamage(34);
+        
+        //ObjectPoolManager.Instance.DeSpawnObject(this.gameObject);
+
+        //if (fireParticleSystem != null)
+        //{
+        //    GameObject bulletParticleEffectObject = ObjectPoolManager.Instance.SpawnObject(fireParticleSystem.gameObject);
+        //    bulletParticleEffectObject.transform.position = collision.GetContact(0).point;
+        //    bulletParticleEffectObject.GetComponent<ParticleSystem>().Play();
+        //    ObjectPoolManager.Instance.DeSpawnObjectWithDelay(bulletParticleEffectObject, 3f);
+        //}
     }
 }

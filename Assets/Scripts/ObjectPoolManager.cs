@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ObjectPoolManager : MonoBehaviour
 {
-    public List<ObjectPoolsInfo> objectPools;
+    private List<ObjectPoolsInfo> objectPools;
     private static ObjectPoolManager instance;
 
     public static ObjectPoolManager Instance { get => instance; }
@@ -15,11 +15,6 @@ public class ObjectPoolManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
         }
     }
     // Start is called before the first frame update
