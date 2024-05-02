@@ -40,7 +40,7 @@ namespace Assets.Scripts.Player
             if (tankPlayerController == null)
             {
                 TankPlayerScriptableObject tankPlayerSO = GetTankPlayerByType(currentUserJSON.TankType);
-
+                
                 tankPlayerController = new TankPlayerController(tankPlayerSO);
                 //tankPlayerController.SpawnTankPlayer(tankPlayerSO);
                 AddToConnectedPlayers(tankPlayerController);
@@ -60,7 +60,7 @@ namespace Assets.Scripts.Player
         public void UpdateRemotePlayerHealth(HealthChangeDataJSON healthChanged)
         {
             TankPlayerController tankPlayerController = GetPlayerById(healthChanged.Id);
-            tankPlayerController.SetHealth(healthChanged.CurrentHealth);
+            tankPlayerController?.SetHealth(healthChanged.CurrentHealth);
         }
 
         private void AddToConnectedPlayers(TankPlayerController tankPlayerController)
@@ -87,19 +87,19 @@ namespace Assets.Scripts.Player
         public void PlayerMovement(Vector3 position, string id)
         {
             TankPlayerController tankPlayer = connectedTankPlayers.FirstOrDefault(t => t.Id == id);
-            tankPlayer.SetPosition(position);
+            tankPlayer?.SetPosition(position);
         }
 
         public void PlayerRotation(Quaternion rotation, string id)
         {
             TankPlayerController tankPlayer = connectedTankPlayers.FirstOrDefault(t => t.Id == id);
-            tankPlayer.SetRotation(rotation);
+            tankPlayer?.SetRotation(rotation);
         }
 
         public void PlayerShoot(string id)
         {
             TankPlayerController tankPlayer = connectedTankPlayers.FirstOrDefault(t => t.Id == id);
-            tankPlayer.SetShoot();
+            tankPlayer?.SetShoot();
         }
 
         //public bool IsPlayerExist(string id)
@@ -118,10 +118,18 @@ namespace Assets.Scripts.Player
         public void UpdatePlayerKilled(string idOfKilledFrom)
         {
             TankPlayerController tankPlayer = GetPlayerById(idOfKilledFrom);
-            if (tankPlayer.IsLocalPlayer)
+            if (tankPlayer!=null && tankPlayer.IsLocalPlayer)
             {
                 tankPlayer.UpdatePlayerKillsScore();
                 tankPlayer.UpdateKillsScoreInUI();
+            }
+        }
+
+        public void DisableConnectedPlayersInput()
+        {
+            foreach(TankPlayerController controller in connectedTankPlayers)
+            {
+                controller.GameOver();
             }
         }
 

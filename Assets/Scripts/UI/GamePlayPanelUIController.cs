@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.SocketIONetwork.EventHandlerClasses;
 
 namespace Assets.Scripts.UI
 {
@@ -36,5 +37,18 @@ namespace Assets.Scripts.UI
         }
 
         public void SetPlayerJoinedText(string text) => gamePlayPanelUIView.SetPlayerJoinedNameText(text);
+
+        public void SetCountdownTimer(GameTimer gameTimerJSON)
+        {
+            gamePlayPanelUIView.SetCountdownTimer(FormatTime(gameTimerJSON.TimerText));
+        }
+
+        private string FormatTime(int timeInSeconds)
+        {
+            int minutes = Mathf.FloorToInt(timeInSeconds / 60);
+            int seconds = Mathf.FloorToInt(timeInSeconds % 60);
+            return string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+
     }
 }

@@ -92,16 +92,23 @@ namespace Assets.Scripts.SocketIONetwork
         [Serializable]
         public class HealthChangeDataJSON
         {
-            //public string Name;
             public string Id;
             public float CurrentHealth;
+        }
 
-            //public HealthChangeDataJSON(string name, float healthChange, string id)
-            //{
-            //    Name = name;
-            //    Id = id;
-            //    CurrentHealth = healthChange;
-            //}
+        [Serializable]
+        public class GameTimer
+        {
+            public int TimerText;
+        }
+
+        [Serializable]
+        public class GameOverJSON
+        {
+            public string WinnerName;
+            public string WinnerId;
+            public int MaxKills;
+            public List<PlayingUserJSON> PlayersList;
         }
 
         //[Serializable]

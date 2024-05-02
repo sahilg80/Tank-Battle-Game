@@ -50,7 +50,7 @@ namespace Assets.Scripts.Player
                 mesh.material = material;
             }
         }
-
+        public void ToggleInput(bool value) => isInitialized = value;
         public void SetCameraForBillboard(Transform cameraObject) => tankPlayerBillBoard.SetCameraObject(cameraObject);
 
         private void SetTankPlayerName(string value) => tankPlayerNameText.SetText(value);

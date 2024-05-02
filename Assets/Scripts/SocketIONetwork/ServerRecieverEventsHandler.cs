@@ -36,6 +36,47 @@ namespace Assets.Scripts.SocketIONetwork
             socket.On("player move", OnPlayerMove);
             socket.On("player turn", OnPlayerRotate);
             socket.On("player shoot", OnPlayerShoot);
+            socket.On("game timer", OnCountdownTimerUpdate);
+            socket.On("game over", OnGameOver);
+        }
+
+        private void OnGameOver(SocketIOResponse response)
+        {
+            string data = response.ToString();
+            Debug.Log("data " + data);
+
+            GameOverJSON[] gameOverDataArray = JsonConvert.DeserializeObject<GameOverJSON[]>(data);
+
+            GameOverJSON gameOverJSON = gameOverDataArray[0];
+            //Debug.Log(" max ki " + gameOverJSON.TimerText);
+
+            UnityMainThreadDispatcher.Instance().Enqueue(OnGameCompleted(gameOverJSON));
+        }
+
+        private IEnumerator OnGameCompleted(GameOverJSON gameOverJSON)
+        {
+            GameService.Instance.TankPlayerService.DisableConnectedPlayersInput();
+            GameService.Instance.UIService.GameOverPanelUIController.GameOverDataShow(gameOverJSON);
+            yield return null;
+        }
+
+        private void OnCountdownTimerUpdate(SocketIOResponse response)
+        {
+            string data = response.ToString();
+            Debug.Log("data " + data);
+
+            GameTimer[] playerDataArray = JsonConvert.DeserializeObject<GameTimer[]>(data);
+
+            GameTimer gameTimerJSON = playerDataArray[0];
+            Debug.Log(" timer text value " + gameTimerJSON.TimerText);
+
+            UnityMainThreadDispatcher.Instance().Enqueue(OnTimerUpdate(gameTimerJSON));
+        }
+
+        private IEnumerator OnTimerUpdate(GameTimer gameTimerJSON)
+        {
+            GameService.Instance.UIService.GamePlayPanelUIController.SetCountdownTimer(gameTimerJSON);
+            yield return null;
         }
 
         private void OnHealthAffected(SocketIOResponse response)
@@ -46,10 +87,9 @@ namespace Assets.Scripts.SocketIONetwork
             HealthChangeDataJSON[] playerDataArray = JsonConvert.DeserializeObject<HealthChangeDataJSON[]>(data);
 
             HealthChangeDataJSON healthUserJSON = playerDataArray[0];
-            Debug.Log(" joined user name " + healthUserJSON.Id);
+            Debug.Log(" health user " + healthUserJSON.Id);
 
             UnityMainThreadDispatcher.Instance().Enqueue(OnRemotePlayerHealthChange(healthUserJSON));
-
         }
 
         private IEnumerator OnRemotePlayerHealthChange(HealthChangeDataJSON healthUserJSON)

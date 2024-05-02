@@ -181,6 +181,7 @@ namespace Assets.Scripts.Player
             GameService.Instance.ServerConnectorService.ServerSenderEvents.CommandKilled(kills);
         }
 
+        public void GameOver() => tankPlayerView.ToggleInput(false);
         public void UpdateKillsScoreInUI() => GameService.Instance.UIService.GamePlayPanelUIController.UpdatePlayerKillsText(kills.ToString());
 
     }

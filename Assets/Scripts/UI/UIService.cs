@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.UI.PrefabElements.GameOverPanel;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,6 +37,14 @@ namespace Assets.Scripts.UI
         private TankSelectionUIPanelController tankSelectionUIPanelController;
         public TankSelectionUIPanelController TankSelectionUIPanelController => tankSelectionUIPanelController;
 
+        [Header("Game Over Panel")]
+        [SerializeField]
+        private GameOverPanelUIView gameOverPanelUIView;
+        [SerializeField]
+        private TankPlayerRankUIView tankPlayerRankUIView;
+        private GameOverPanelUIController gameOverPanelUIController;
+        public GameOverPanelUIController GameOverPanelUIController => gameOverPanelUIController;
+
         private void Start()
         {
             this.networkJoinUIPanelController = new NetworkJoinUIPanelController(networkJoinUIPanelView);
@@ -43,6 +52,7 @@ namespace Assets.Scripts.UI
             this.gamePlayPanelUIController = new GamePlayPanelUIController(gamePlayUIPanelView);
             this.loadingPanelUIController = new LoadingPanelUIController(loadingPanelUIView);
             this.tankSelectionUIPanelController = new TankSelectionUIPanelController(tankSelectionUIPanelView);
+            this.gameOverPanelUIController = new GameOverPanelUIController(gameOverPanelUIView, tankPlayerRankUIView);
         }
 
         public NetworkJoinUIPanelController GetStartUIPanelController() => networkJoinUIPanelController;

@@ -49,5 +49,7 @@ namespace Assets.Scripts.UI
             playerJoinCoroutine = null;
         }
 
+        public void SetCountdownTimer(string value) => countDownTimerText.SetText(value);
+
     }
 }
