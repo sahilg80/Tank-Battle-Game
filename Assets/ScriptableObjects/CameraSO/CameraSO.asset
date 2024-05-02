@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8700dbec88b55de4cb8ab88809e0d7ba, type: 3}
+  m_Name: CameraSO
+  m_EditorClassIdentifier: 
+  Position: {x: 0.08553839, y: 7.669497, z: -9.815989}
+  Rotation: {x: 29.599, y: 0.138, z: -0.002}

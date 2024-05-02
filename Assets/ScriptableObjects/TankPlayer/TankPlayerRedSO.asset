@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8314143a7ceb8243a5a225b5b8464c4, type: 3}
+  m_Name: TankPlayerRedSO
+  m_EditorClassIdentifier: 
+  TankType: 0
+  TankPlayerView: {fileID: -4234010814826759818, guid: 2c308fc333676dc4f9bdaed537c3a3ee,
+    type: 3}
+  MeshColorMaterial: {fileID: 2100000, guid: 463052f3f7389124f9e7b34b0b931d0d, type: 2}
+  MovementSpeed: 400
+  RotationSpeed: 80
+  LaunchForce: 15

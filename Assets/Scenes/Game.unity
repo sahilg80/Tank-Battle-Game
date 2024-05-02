@@ -693,7 +693,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 372862457}
-  - component: {fileID: 372862456}
   m_Layer: 0
   m_Name: ObjectPoolManager
   m_TagString: Untagged
@@ -701,18 +700,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &372862456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 372862455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7412f59b0aa6c214ba6fe1bc82009b7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &372862457
 Transform:
   m_ObjectHideFlags: 0
@@ -947,7 +934,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1391612813}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
         m_MethodName: JoinGame
         m_Mode: 1
@@ -1552,7 +1539,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1264612641}
-  - component: {fileID: 1264612640}
   m_Layer: 0
   m_Name: PlayerSpawner
   m_TagString: Untagged
@@ -1560,22 +1546,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1264612640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264612639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c77b82c0e8f19314cba7affd5bec7034, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 651957505538576762, guid: 6a81440a4c2a5f649ad1354853d80b87, type: 3}
-  PlayerSpawnPoints:
-  - {fileID: 7314712568391433121}
-  - {fileID: 2635491}
 --- !u!4 &1264612641
 Transform:
   m_ObjectHideFlags: 0
@@ -1813,7 +1783,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1391612814}
-  - component: {fileID: 1391612813}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1821,25 +1790,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1391612813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1391612812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fbef42cb48e7164e8a7fcbd800d6559, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerNameInput: {fileID: 1774345232}
-  networkPanel: {fileID: 1508813381}
-  playerToSpawn: {fileID: 651957505538576762, guid: 6a81440a4c2a5f649ad1354853d80b87,
-    type: 3}
-  enemySpawner: {fileID: 1553062270}
-  playerSpawner: {fileID: 1264612640}
-  serverUrlLink: http://localhost:3000
 --- !u!4 &1391612814
 Transform:
   m_ObjectHideFlags: 0
@@ -1981,7 +1931,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1553062271}
-  - component: {fileID: 1553062270}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -1989,25 +1938,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1553062270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553062269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3c63800e8d8d28469ded05d8d80d1f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 2141064432871574824, guid: 5209014411f8eed4a94966b879537d5b, type: 3}
-  spawnPointPrefab: {fileID: 7314712566831548899, guid: bcaa44ee9b42d2e4d921e41a10173cbf,
-    type: 3}
-  spawnPositions:
-  - {fileID: 7332995098983664198}
-  - {fileID: 3572275478803334135}
-  - {fileID: 2577321896234860615}
 --- !u!4 &1553062271
 Transform:
   m_ObjectHideFlags: 0
