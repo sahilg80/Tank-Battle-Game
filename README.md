@@ -2,6 +2,11 @@ Tank Shoot Multiplayer Game
 
 Welcome to the Tank Shoot Multiplayer Game repository! This project offers an exciting tank shooting experience where players can engage in thrilling multiplayer battles or challenge themselves against AI opponents.
 
+Branches:
+
+    - main: Offers the single-player version of the Tank Shoot game.
+    - multiplayer-tank-shoot: Provides the multiplayer mode where remote users can connect and battle against each other in real-time.
+    
 Features:
 Multiplayer Mode:
 
@@ -31,7 +36,3 @@ Optimization:
     - Implemented object pooling to manage frequent spawning and destruction of entities, ensuring efficient memory usage.
     - Leveraged MVC design architecture for seamless communication between multiple entities.
 
-Branches:
-
-    - main: Offers the single-player version of the Tank Shoot game.
-    - multiplayer-tank-shoot: Provides the multiplayer mode where remote users can connect and battle against each other in real-time.
