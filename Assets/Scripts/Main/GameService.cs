@@ -4,8 +4,6 @@ using Assets.Scripts.SocketIONetwork;
 using Assets.Scripts.TankBullet;
 using Assets.Scripts.UI;
 using Assets.Scripts.Utilities;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Main
@@ -47,13 +45,15 @@ namespace Assets.Scripts.Main
         protected override void Awake()
         {
             base.Awake();
-            //tankPlayerService = new TankPlayerService(tankPlayerSO, tankPlayerView, cameraObject);
-            //tankPlayerService
+
             eventService = new EventService();
             tankBulletService = new TankBulletService(tankBulletView, bulletHitParticleEffect, tankBulletSO);
             serverConnectorService.Initialize();
-            //ServerConnectorService connectorService = new ServerConnectorService();
-            //StartCoroutine(connectorService.ConnectToServer(""));
+        }
+
+        private void OnApplicationQuit()
+        {
+            serverConnectorService.ServerSenderEvents.DisconnectPlayer();
         }
     }
 }

@@ -175,6 +175,11 @@ namespace Assets.Scripts.Player
             }
         }
 
+        public void DestroyTankPlayer()
+        {
+            tankPlayerView.DestroyTankPlayer();
+        }
+
         public void UpdatePlayerKillsScore()
         {
             kills = kills + 1;

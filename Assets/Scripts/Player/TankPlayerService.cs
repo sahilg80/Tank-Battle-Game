@@ -22,19 +22,10 @@ namespace Assets.Scripts.Player
             tankPlayerPool = new TankPlayerPool();
         }
 
-        //public TankPlayerService(TankPlayerScriptableObject tankPlayerSO, TankPlayerView tankPlayerView, 
-        //    Transform cameraObject)
-        //{
-        //    connectedTankPlayers = new List<TankPlayerController>();
-        //    this.tankPlayerView = tankPlayerView;
-        //    this.tankPlayerSOList = new List<TankPlayerScriptableObject>();
-        //    this.cameraObject = cameraObject;
-        //}
-
-        public TankPlayerController SpawnConnectedTankPlayer(PlayingUserJSON currentUserJSON, Vector3 position, 
+        public void SpawnConnectedTankPlayer(PlayingUserJSON currentUserJSON, Vector3 position, 
             Quaternion rotation, bool isLocalPlayer)
         {
-            //TankPlayerController tankPlayerController = tankPlayerPool.GetTankPlayer();
+
             TankPlayerController tankPlayerController = GetPlayerById(currentUserJSON.Id);
 
             if (tankPlayerController == null)
@@ -42,19 +33,13 @@ namespace Assets.Scripts.Player
                 TankPlayerScriptableObject tankPlayerSO = GetTankPlayerByType(currentUserJSON.TankType);
                 
                 tankPlayerController = new TankPlayerController(tankPlayerSO);
-                //tankPlayerController.SpawnTankPlayer(tankPlayerSO);
+
                 AddToConnectedPlayers(tankPlayerController);
             }
 
             tankPlayerController.OnEnable(currentUserJSON.Name, currentUserJSON.Id, cameraObject, currentUserJSON.Kills, 
                 currentUserJSON.Health, position, rotation, isLocalPlayer);
 
-            //TankPlayerController tankPlayerController = new TankPlayerController(tankPlayerSO, cameraObject,
-            //    currentUserJSON.Name, currentUserJSON.Id, position, rotation, isLocalPlayer);
-
-            
-            
-            return tankPlayerController;
         }
 
         public void UpdateRemotePlayerHealth(HealthChangeDataJSON healthChanged)
@@ -70,19 +55,6 @@ namespace Assets.Scripts.Player
             if (controller == null)
                 connectedTankPlayers.Add(tankPlayerController);
         }
-
-        //public void ReturnToPool(TankPlayerController controller) => tankPlayerPool.ReturnTankPlayerToPool(controller);
-
-        //public TankPlayerController SpawnConnectedTankPlayer(string tankPlayerName, string id,
-        //    Vector3 position, Quaternion rotation, TankPlayerType tankType, bool isLocalPlayer)
-        //{
-        //    TankPlayerScriptableObject tankPlayerSO = GetTankPlayerByType(tankType);
-
-        //    TankPlayerController tankPlayerController = new TankPlayerController(tankPlayerSO, cameraObject,
-        //        tankPlayerName, id, position, rotation, isLocalPlayer);
-        //    connectedTankPlayers.Add(tankPlayerController);
-        //    return tankPlayerController;
-        //}
 
         public void PlayerMovement(Vector3 position, string id)
         {
@@ -101,13 +73,6 @@ namespace Assets.Scripts.Player
             TankPlayerController tankPlayer = connectedTankPlayers.FirstOrDefault(t => t.Id == id);
             tankPlayer?.SetShoot();
         }
-
-        //public bool IsPlayerExist(string id)
-        //{
-        //    TankPlayerController tankPlayer = connectedTankPlayers.FirstOrDefault(t => t.Id == id);
-        //    if (tankPlayer != null) return true;
-        //    return false;
-        //}
 
         public TankPlayerController GetPlayerById(string id)
         {
@@ -133,17 +98,13 @@ namespace Assets.Scripts.Player
             }
         }
 
-        //public TankPlayerController IsLocalPlayer(string id)
-        //{
-        //    TankPlayerController tankPlayer = connectedTankPlayers.FirstOrDefault(t => t.Id == id);
-        //    return tankPlayer;
-        //}
-
-        //public string GetLocalPlayerId()
-        //{
-        //    TankPlayerController tankPlayer = connectedTankPlayers.FirstOrDefault(t => t.isLocalPlayer);
-        //    return tankPlayer.Id;
-        //}
+        public void DisconnectPlayer(string id)
+        {
+            TankPlayerController tankPlayer = GetPlayerById(id);
+            tankPlayer?.GameOver();
+            tankPlayer?.DestroyTankPlayer();
+            connectedTankPlayers.Remove(tankPlayer);
+        }
 
         private TankPlayerScriptableObject GetTankPlayerByType(TankPlayerType type)
         {

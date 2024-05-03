@@ -80,10 +80,8 @@ namespace Assets.Scripts.Player
             Shoot();
         }
 
-        private void FixedUpdate()
-        {
-        }
-
+        public void DestroyTankPlayer() => Destroy(gameObject);
+        
         private void Movement()
         {
             movementDir = Input.GetAxis("Vertical");

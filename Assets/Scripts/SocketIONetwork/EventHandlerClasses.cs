@@ -112,6 +112,12 @@ namespace Assets.Scripts.SocketIONetwork
         }
 
         //[Serializable]
+        //public class DisconnectionJSON
+        //{
+        //    public string 
+        //}
+
+        //[Serializable]
         //public class EnemiesJSON
         //{
         //    public List<PlayingUserJSON> Enemies;

@@ -38,6 +38,25 @@ namespace Assets.Scripts.SocketIONetwork
             socket.On("player shoot", OnPlayerShoot);
             socket.On("game timer", OnCountdownTimerUpdate);
             socket.On("game over", OnGameOver);
+            socket.On("other player disconnected", OnOtherPlayerDisconnect);
+        }
+
+        private void OnOtherPlayerDisconnect(SocketIOResponse response)
+        {
+            string data = response.ToString();
+            Debug.Log("data " + data);
+
+            PlayingUserJSON[] playerDisconnectedDataArray = JsonConvert.DeserializeObject<PlayingUserJSON[]>(data);
+
+            PlayingUserJSON playingUserJSON = playerDisconnectedDataArray[0];
+
+            UnityMainThreadDispatcher.Instance().Enqueue(OnPlayerDisconnected(playingUserJSON.Id));
+        }
+
+        private IEnumerator OnPlayerDisconnected(string id)
+        {
+            GameService.Instance.TankPlayerService.DisconnectPlayer(id);
+            yield return null;
         }
 
         private void OnGameOver(SocketIOResponse response)
@@ -117,9 +136,8 @@ namespace Assets.Scripts.SocketIONetwork
             Vector3 position = new Vector3(currentUserJSON.Position[0], currentUserJSON.Position[1], currentUserJSON.Position[2]);
             Quaternion rotation = Quaternion.Euler(currentUserJSON.Rotation[0], currentUserJSON.Rotation[1], currentUserJSON.Rotation[2]);
 
-            TankPlayerController controller = GameService.Instance.TankPlayerService.SpawnConnectedTankPlayer(currentUserJSON, position, rotation, true);
-            //GameService.Instance.TankPlayerService.AddToConnectedPlayers(controller);
-
+            GameService.Instance.TankPlayerService.SpawnConnectedTankPlayer(currentUserJSON, position, rotation, true);
+            
             yield return null;
         }
 
@@ -156,10 +174,8 @@ namespace Assets.Scripts.SocketIONetwork
             Vector3 position = new Vector3(currentUserJSON.Position[0], currentUserJSON.Position[1], currentUserJSON.Position[2]);
             Quaternion rotation = Quaternion.Euler(currentUserJSON.Rotation[0], currentUserJSON.Rotation[1], currentUserJSON.Rotation[2]);
 
-            TankPlayerController controller = GameService.Instance.TankPlayerService.SpawnConnectedTankPlayer(currentUserJSON, position, rotation, false);
-            //GameService.Instance.TankPlayerService.AddToConnectedPlayers(controller);
+            GameService.Instance.TankPlayerService.SpawnConnectedTankPlayer(currentUserJSON, position, rotation, false);
             
-            // set player initial health
             yield return null;
         }
 

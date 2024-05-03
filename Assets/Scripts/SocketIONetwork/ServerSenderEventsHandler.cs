@@ -53,5 +53,10 @@ namespace Assets.Scripts.SocketIONetwork
             socket.Emit("died self");
         }
 
+        public void DisconnectPlayer()
+        {
+            socket.Emit("disconnect");
+        }
+
     }
 }
